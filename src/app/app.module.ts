@@ -7,6 +7,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
+import { MessagingService } from './shared/messaging.service';
+import { AsyncPipe } from '../../node_modules/@angular/common';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -15,9 +22,13 @@ import { environment } from '../environments/environment';
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase)
   ],
-  providers: [],
+  providers: [MessagingService, AsyncPipe],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
