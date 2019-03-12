@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,6 +15,7 @@ import { NotificationEnableComponent } from './components/notificationenable/not
 
 
 import { MessagingService } from './shared/messaging.service';
+import { D365Service } from './shared/d365.service';
 import { AsyncPipe } from '../../node_modules/@angular/common';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -28,6 +30,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     NotificationCardComponent,
   ],
   imports: [
+    HttpModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -39,7 +42,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AngularFireMessagingModule,
     AngularFireModule.initializeApp(environment.firebase)
   ],
-  providers: [MessagingService, AsyncPipe],
+  providers: [MessagingService, D365Service, AsyncPipe],
   bootstrap: [AppComponent]
 })
 
