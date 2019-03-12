@@ -1,0 +1,14 @@
+<mat-card class="notification-card">
+    <mat-card-header>
+      <div mat-card-avatar class="notification-header-image"></div>
+      <mat-card-title>{{ notificationPreference.title }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        {{ notificationPreference.description }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <mat-slide-toggle (click)="enableSubscription(notificationPreference.id)">Enable Notifications</mat-slide-toggle>
+    </mat-card-actions>
+  </mat-card>

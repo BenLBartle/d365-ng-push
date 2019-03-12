@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MessagingService } from './shared/messaging.service';
+import { NotificationPreference } from './shared/notification-preference.type';
 
 @Component({
   selector: 'app-root',
@@ -8,14 +8,23 @@ import { MessagingService } from './shared/messaging.service';
 })
 
 export class AppComponent {
-  message;
+  notificationPreferences: NotificationPreference[];
 
-  constructor(private messagingService: MessagingService) { }
+  constructor() {
+    this.notificationPreferences = new Array<NotificationPreference>();
 
-  enableSubscription() {
-    const userId = 'user001';
-    this.messagingService.requestPermission(userId);
-    this.messagingService.receiveMessage();
-    this.message = this.messagingService.currentMessage;
+    let preference = new NotificationPreference();
+    preference.title = "New Record";
+    preference.description = "A new record is created";
+
+    let preference2 = new NotificationPreference();
+    preference2.title = "Changed Record";
+    preference2.description = "A record is updated";
+
+    let preference3 = new NotificationPreference();
+    preference3.title = "Closed Record";
+    preference3.description = "A record is deactivated";
+
+    this.notificationPreferences.push(preference, preference2, preference3);
   }
 }

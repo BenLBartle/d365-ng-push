@@ -1,4 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
+
+<notificationenable-component></notificationenable-component>
 <div class="container" 
 fxLayout
 fxLayoutWrap
@@ -6,39 +8,7 @@ fxLayout.xs="column"
 fxLayoutAlign="left"
 fxLayoutGap="30px"
 fxLayoutGap.xs="0">
-  <mat-card class="notification-card">
-    <mat-card-header>
-      <div mat-card-avatar class="notification-header-image"></div>
-      <mat-card-title>Record Created</mat-card-title>
-      <mat-card-subtitle>by me</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        Allow notifications for records created by me.
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button (click)="enableSubscription(createdByMe)">Enable</button>
-      <button mat-button>Disable</button>
-    </mat-card-actions>
-  </mat-card>
-
-  <mat-card class="notification-card">
-    <mat-card-header>
-      <div mat-card-avatar class="notification-header-image"></div>
-      <mat-card-title>Record Created</mat-card-title>
-      <mat-card-subtitle>by my Business Unit</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        Allow notifications for records created by me.
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button (click)="enableSubscription(createdByMyBU)">Enable</button>
-      <button mat-button>Disable</button>
-    </mat-card-actions>
-  </mat-card>
+<notificationcard-component *ngFor="let pref of notificationPreferences" [notificationPreference]="pref"></notificationcard-component>
 </div>
 
 

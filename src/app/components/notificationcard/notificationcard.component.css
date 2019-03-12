@@ -1,0 +1,12 @@
+.notification-card {
+    width: 250px;
+    margin-top:10px;
+    margin-bottom:10px;
+  }
+  
+  .notification-header-image {
+    background-image: url('https://cdn1.iconfinder.com/data/icons/ui-22/24/391-512.png');
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+  }
