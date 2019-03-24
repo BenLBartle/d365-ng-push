@@ -9,21 +9,89 @@ export class D365Service {
     private clientUrl = "https://bartl.crm11.dynamics.com/";
     private apiVersion = "9.1";
 
-    constructor (private http: Http) {}
+    constructor(private http: Http) { }
 
-    getConsent(userId: string) {
+    async getConsent(userId: string) {
 
-        const options  = new RequestOptions({ headers: this.getHeaders()});
-        const result = this.http.get(`${this.clientUrl}/api/data/v${this.apiVersion}/bartl_notificationconsents?$filter=bartl_User/systemuserid eq ${userId}`, {withCredentials: true})
-        .pipe(map(response => response.json()))
-        .subscribe(result => {
-            console.log(result);
-        });
-        
+        const options = { headers: this.getHeaders(), observe: 'response' };
+        const result = await this.http.get(`${this.clientUrl}/api/data/v${this.apiVersion}/bartl_notificationconsents?$filter=bartl_User/systemuserid eq ${userId}`, options)
+            .pipe(map(response => response.json())).toPromise();
+
+        console.log(result.value);
+        if (result.value.length >= 1) {
+            console.log(`${this.clientUrl}/api/data/v${this.apiVersion}/bartl_notificationconsents(${result.value[0].bartl_notificationconsentid})`);
+            return `${this.clientUrl}/api/data/v${this.apiVersion}/bartl_notificationconsents(${result.value[0].bartl_notificationconsentid})`
+        }
+        else {
+            return undefined;
+        }
+    }
+
+    async getUserId() {
+        const options = new RequestOptions({ headers: this.getHeaders() });
+        const result = await this.http.get(`${this.clientUrl}/api/data/v${this.apiVersion}/WhoAmI()`, options)
+            .pipe(map(response => response.json()))
+            .toPromise();
+
+        console.log(result.UserId);
+
+        return result.UserId;
+    }
+
+    async createConsent(userId: string, consentToken: string) {
+        const options = { headers: this.getHeaders(), observe: 'response' };
+        const record = {
+            'bartl_User@odata.bind': `/systemusers(${userId})`,
+            'bartl_consenttoken': consentToken
+        };
+        const result = await this.http.post(`${this.clientUrl}/api/data/v${this.apiVersion}/bartl_notificationconsents`, record, options)
+            .pipe(map(response => response.json()))
+            .toPromise();
+
+        const consentUrl = result.headers.get('OData-EntityId');
+
+        console.log(consentUrl)
+
+        return consentUrl;
+    }
+
+    async notificatonCreateToggle(consentUrl: string, toggleValue: boolean) {
+        const options = { headers: this.getHeaders() };
+        const record = {
+            'bartl_oncreate': toggleValue,
+        };
+
+        await this.http.patch(consentUrl, record, options).pipe(map(response => response.json()))
+        .toPromise();
+    }
+
+    async notificatonUpateToggle(consentUrl: string, toggleValue: boolean) {
+        const options = { headers: this.getHeaders() };
+        const record = {
+            'bartl_onupdate': toggleValue,
+        };
+
+        await this.http.patch(consentUrl, record, options).pipe(map(response => response.json()))
+        .toPromise();
+    }
+
+    async notificatonDeactivateToggle(consentUrl: string, toggleValue: boolean) {
+        const options = { headers: this.getHeaders() };
+        const record = {
+            'bartl_ondeactivate': toggleValue,
+        };
+
+        await this.http.patch(consentUrl, record, options).pipe(map(response => response.json()))
+        .toPromise();
+    }
+
+    async deleteConsent(consentUrl: string) {
+        const options = { headers: this.getHeaders(), observe: 'response' };
+        await this.http.delete(consentUrl, options);
     }
 
     getHeaders() {
-        return new Headers({'cookie': 'ReqClientId=abd3f049-9420-4810-9087-3da49b9a915d; orgId=e5837f68-5fa2-4618-b6c1-10d5eef35116; ai_user=zKbDE|2019-03-08T20:12:03.361Z; NotificationRedirection=NotificationRedirection_Reason=notMemberOfOrg&NotificationRedirection_OriginalRequestUrl=https://bartl.crm11.dynamics.com/main.aspx?settingsonly=true; ai_session=oAReV|1552422888565.505|1552423448868.255'});
+        return new Headers({ 'Authorization': 'Bearer JUNK' });
     }
 
 }

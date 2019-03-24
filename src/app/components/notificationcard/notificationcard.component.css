@@ -8,7 +8,7 @@
   }
   
   .notification-header-image {
-    background-image: url('https://cdn1.iconfinder.com/data/icons/ui-22/24/391-512.png');
+    background-image: url('/assets/icons/bell.png');
     width: 30px;
     height: 30px;
     background-size: cover;

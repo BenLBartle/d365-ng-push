@@ -9,6 +9,13 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <mat-slide-toggle (click)="enableSubscription(notificationPreference.id)">Enable Notifications</mat-slide-toggle>
+        <mat-button-toggle-group #group="matButtonToggleGroup" [value]="enabledValue" (change)="toggleNotification(group.value)">
+            <mat-button-toggle value="Enabled">
+              Enabled
+            </mat-button-toggle>
+            <mat-button-toggle value="Disabled">
+              Disabled
+            </mat-button-toggle>
+          </mat-button-toggle-group>
     </mat-card-actions>
   </mat-card>

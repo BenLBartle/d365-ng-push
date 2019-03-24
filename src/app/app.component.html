@@ -1,14 +1,21 @@
 <!--The content below is only a placeholder and can be replaced.-->
-
-<notificationenable-component></notificationenable-component>
-<div class="container" 
-fxLayout
-fxLayoutWrap
-fxLayout.xs="column"
-fxLayoutAlign="left"
-fxLayoutGap="30px"
-fxLayoutGap.xs="0">
-<notificationcard-component *ngFor="let pref of notificationPreferences" [notificationPreference]="pref"></notificationcard-component>
-</div>
-
-
+<mat-list>
+        <h3 mat-subheader>Notifications</h3>
+    <mat-list-item>
+        <div class="container">
+        <notificationenable-component></notificationenable-component>
+        </div>
+    </mat-list-item>
+    <h3 mat-subheader></h3>
+    <h3 mat-subheader>Triggers</h3>
+    <h3 mat-subheader></h3>
+    <mat-list-item>
+        <div class="container" fxLayout fxLayoutWrap fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="30px"
+            fxLayoutGap.xs="0">
+            <notificationcard-component *ngFor="let pref of notificationPreferences" [notificationPreference]="pref">
+            </notificationcard-component>
+            <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 	title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+        </div>
+        
+    </mat-list-item>
+</mat-list>

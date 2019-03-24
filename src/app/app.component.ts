@@ -15,14 +15,17 @@ export class AppComponent {
 
     let preference = new NotificationPreference();
     preference.title = "New Record";
+    preference.type = "OnCreate";
     preference.description = "Display a notification when someone creates a new record and assigns it to you";
 
     let preference2 = new NotificationPreference();
     preference2.title = "Changed Record";
+    preference2.type = "OnUpdate";
     preference2.description = "Display a notification when someone updates a record which is assigned to you";
 
     let preference3 = new NotificationPreference();
     preference3.title = "Closed Record";
+    preference3.type = "OnDeactivate";
     preference3.description = "Display a notification when someone deactivates a record which is assigned to you";
 
     this.notificationPreferences.push(preference, preference2, preference3);
