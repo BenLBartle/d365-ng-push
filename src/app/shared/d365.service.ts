@@ -7,7 +7,7 @@ import { WindowRef } from './windowref.service';
 
 export class D365Service {
 
-    public clientUrl = 'https://bartl.crm11.dynamics.com/';
+    public clientUrl: string;
     public apiVersion = '9.1';
 
     constructor(private http: Http, private winRef: WindowRef) {
@@ -92,7 +92,7 @@ export class D365Service {
     }
 
     getHeaders() {
-        return new Headers({ Authorization: 'Bearer junk' });
+        return new Headers();
     }
 
 }
