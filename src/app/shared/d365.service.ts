@@ -1,15 +1,18 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { map } from 'rxjs/operators';
+import { WindowRef } from './windowref.service';
 
 @Injectable()
 
 export class D365Service {
 
-    private clientUrl = "https://bartl.crm11.dynamics.com/";
-    private apiVersion = "9.1";
+    public clientUrl = 'https://bartl.crm11.dynamics.com/';
+    public apiVersion = '9.1';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private winRef: WindowRef) {
+        this.clientUrl = winRef.nativeWindow.GetGlobalContext().getClientUrl();
+     }
 
     async getConsent(userId: string) {
 
@@ -19,10 +22,8 @@ export class D365Service {
 
         console.log(result.value);
         if (result.value.length >= 1) {
-            console.log(`${this.clientUrl}/api/data/v${this.apiVersion}/bartl_notificationconsents(${result.value[0].bartl_notificationconsentid})`);
-            return `${this.clientUrl}/api/data/v${this.apiVersion}/bartl_notificationconsents(${result.value[0].bartl_notificationconsentid})`
-        }
-        else {
+            return result.value[0];
+        } else {
             return undefined;
         }
     }
@@ -42,15 +43,14 @@ export class D365Service {
         const options = { headers: this.getHeaders(), observe: 'response' };
         const record = {
             'bartl_User@odata.bind': `/systemusers(${userId})`,
-            'bartl_consenttoken': consentToken
+            bartl_consenttoken: consentToken
         };
         const result = await this.http.post(`${this.clientUrl}/api/data/v${this.apiVersion}/bartl_notificationconsents`, record, options)
-            .pipe(map(response => response.json()))
             .toPromise();
 
         const consentUrl = result.headers.get('OData-EntityId');
 
-        console.log(consentUrl)
+        console.log(consentUrl);
 
         return consentUrl;
     }
@@ -58,7 +58,7 @@ export class D365Service {
     async notificatonCreateToggle(consentUrl: string, toggleValue: boolean) {
         const options = { headers: this.getHeaders() };
         const record = {
-            'bartl_oncreate': toggleValue,
+            bartl_oncreate: toggleValue,
         };
 
         await this.http.patch(consentUrl, record, options).pipe(map(response => response.json()))
@@ -68,7 +68,7 @@ export class D365Service {
     async notificatonUpateToggle(consentUrl: string, toggleValue: boolean) {
         const options = { headers: this.getHeaders() };
         const record = {
-            'bartl_onupdate': toggleValue,
+            bartl_onchange: toggleValue,
         };
 
         await this.http.patch(consentUrl, record, options).pipe(map(response => response.json()))
@@ -78,20 +78,21 @@ export class D365Service {
     async notificatonDeactivateToggle(consentUrl: string, toggleValue: boolean) {
         const options = { headers: this.getHeaders() };
         const record = {
-            'bartl_ondeactivate': toggleValue,
+            bartl_ondisable: toggleValue,
         };
 
-        await this.http.patch(consentUrl, record, options).pipe(map(response => response.json()))
+        await this.http.patch(consentUrl, record, options)
         .toPromise();
     }
 
     async deleteConsent(consentUrl: string) {
-        const options = { headers: this.getHeaders(), observe: 'response' };
-        await this.http.delete(consentUrl, options);
+        const options = { headers: this.getHeaders() };
+        console.log("Deleting Consent: " + consentUrl);
+        await this.http.delete(consentUrl, options).toPromise();
     }
 
     getHeaders() {
-        return new Headers({ 'Authorization': 'Bearer JUNK' });
+        return new Headers({ Authorization: 'Bearer junk' });
     }
 
 }

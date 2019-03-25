@@ -18,6 +18,7 @@ import { NotificationEnableComponent } from './components/notificationenable/not
 import { MessagingService } from './shared/messaging.service';
 import { D365Service } from './shared/d365.service';
 import { ConsentContext } from './shared/consent.context';
+import { WindowRef } from './shared/windowref.service';
 import { AsyncPipe } from '../../node_modules/@angular/common';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -47,7 +48,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AngularFireMessagingModule,
     AngularFireModule.initializeApp(environment.firebase)
   ],
-  providers: [MessagingService, D365Service, AsyncPipe, ConsentContext],
+  providers: [MessagingService, D365Service, AsyncPipe, ConsentContext, WindowRef],
   bootstrap: [AppComponent]
 })
 

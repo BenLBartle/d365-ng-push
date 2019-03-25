@@ -28,12 +28,12 @@ export class NotificationEnableComponent {
                 this.consentContext.userId = result;
             })
             .then(() => this.d365Service.getConsent(this.consentContext.userId))
-            .then(result => {
-                this.consentContext.consentUrl = result;
-                if (result != undefined) {
+            .then(result => this.consentContext.setConsent(result))
+            .then(() => {
+                if (this.consentContext.consentUrl !== undefined) {
                     this.selectedToggle = 'Enabled';
                 } else {
-                    this.selectedToggle = 'Disabled'
+                    this.selectedToggle = 'Disabled';
                 }
             })
             .then(() => {
@@ -45,14 +45,16 @@ export class NotificationEnableComponent {
     public async toggleSubcription(toggleValue: string) {
 
         try {
-            if (toggleValue == 'Enabled') {
+            if (toggleValue === 'Enabled') {
                 this.requestPermission(this.consentContext.userId);
-            }
-            else {
+            } else {
                 this.d365Service.deleteConsent(this.consentContext.consentUrl);
+
+                this.consentContext.onCreate = false;
+                this.consentContext.onUpdate = false;
+                this.consentContext.onDeactivate = false;
             }
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e);
         }
     }
