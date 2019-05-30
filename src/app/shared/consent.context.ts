@@ -9,25 +9,37 @@ export class ConsentContext {
 
     public consentUrl: string;
 
-    public onCreate = false;
+    public adminMessages = false;
 
-    public onUpdate = false;
+    public lowPriority = false;
+    public standardPriority = false;
+    public highPriority = false;
 
     public onDeactivate = false;
 
-    constructor(private d365Service: D365Service) {}
+    constructor(private d365Service: D365Service) { }
 
     setConsent(consentRecord) {
 
         if (consentRecord !== undefined) {
 
-        this.consentUrl = `${this.d365Service.clientUrl}/api/data/v${this.d365Service.apiVersion}/bartl_notificationconsents(${consentRecord.bartl_notificationconsentid})`;
+            this.consentUrl = `${this.d365Service.clientUrl}/api/data/v${this.d365Service.apiVersion}/bartl_notificationconsents(${consentRecord.bartl_notificationconsentid})`;
 
-        this.onCreate = consentRecord.bartl_oncreate;
-        this.onUpdate = consentRecord.bartl_onchange;
-        this.onDeactivate = consentRecord.bartl_ondisable;
+            this.adminMessages = consentRecord.bartl_adminmessages;
+            this.lowPriority = consentRecord.bartl_lowpriority;
+            this.standardPriority = consentRecord.standardPriority;
+            this.highPriority = consentRecord.highPriority;
 
         }
+    }
+
+    resetConsent() {
+        
+        this.adminMessages = false;
+        this.lowPriority = false;
+        this.standardPriority = false;
+        this.highPriority = false;
+
     }
 
 }

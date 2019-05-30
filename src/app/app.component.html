@@ -1,18 +1,18 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<mat-list>
-        <h3 mat-subheader>Notifications</h3>
-    <mat-list-item>
-        <div class="container">
+<div class="container">
+    <h3>Notification Preferences</h3>
+   
+    <div>
         <notificationenable-component></notificationenable-component>
-        </div>
-    </mat-list-item>
-    <h3 mat-subheader></h3>
-    <mat-list-item>
-        <div class="container" fxLayout fxLayoutWrap fxLayout.xs="column" fxLayoutAlign="left" fxLayoutGap="30px"
-            fxLayoutGap.xs="0">
-            <notificationcard-component *ngFor="let pref of notificationPreferences" [notificationPreference]="pref">
-            </notificationcard-component>
-           
-        </div>
-    </mat-list-item>
-</mat-list>
+    </div>
+
+    <p class="info">
+            Use the controls below to set your notification preferences. These preferences will be stored against your profile and cannot be edited by anyone other than an administrator.
+        </p>
+
+    <div fxLayout="row wrap" fxLayoutGap="25px" fxLayoutAlign="flex-start">
+        <notificationcard-component fxFlex="0 1 calc(10% - 25px)" *ngFor="let pref of notificationPreferences"
+            [notificationPreference]="pref">
+        </notificationcard-component>
+    </div>
+</div>

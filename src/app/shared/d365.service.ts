@@ -11,7 +11,8 @@ export class D365Service {
     public apiVersion = '9.1';
 
     constructor(private http: Http, private winRef: WindowRef) {
-        this.clientUrl = winRef.nativeWindow.GetGlobalContext().getClientUrl();
+        this.clientUrl = 'https://bartl.crm11.dynamics.com';
+        //winRef.nativeWindow.GetGlobalContext().getClientUrl();
      }
 
     async getConsent(userId: string) {
@@ -55,36 +56,17 @@ export class D365Service {
         return consentUrl;
     }
 
-    async notificatonCreateToggle(consentUrl: string, toggleValue: boolean) {
+    
+    async notificationToggle(consentUrl: string, fieldValue: string, toggleValue: boolean) {
         const options = { headers: this.getHeaders() };
         const record = {
-            bartl_oncreate: toggleValue,
+            [fieldValue]: toggleValue,
         };
 
         await this.http.patch(consentUrl, record, options).pipe(map(response => response.json()))
         .toPromise();
     }
-
-    async notificatonUpateToggle(consentUrl: string, toggleValue: boolean) {
-        const options = { headers: this.getHeaders() };
-        const record = {
-            bartl_onchange: toggleValue,
-        };
-
-        await this.http.patch(consentUrl, record, options).pipe(map(response => response.json()))
-        .toPromise();
-    }
-
-    async notificatonDeactivateToggle(consentUrl: string, toggleValue: boolean) {
-        const options = { headers: this.getHeaders() };
-        const record = {
-            bartl_ondisable: toggleValue,
-        };
-
-        await this.http.patch(consentUrl, record, options)
-        .toPromise();
-    }
-
+   
     async deleteConsent(consentUrl: string) {
         const options = { headers: this.getHeaders() };
         console.log("Deleting Consent: " + consentUrl);
@@ -92,7 +74,7 @@ export class D365Service {
     }
 
     getHeaders() {
-        return new Headers();
+        return new Headers({ 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkhCeGw5bUFlNmd4YXZDa2NvT1UyVEhzRE5hMCIsImtpZCI6IkhCeGw5bUFlNmd4YXZDa2NvT1UyVEhzRE5hMCJ9.eyJhdWQiOiJodHRwczovL2JhcnRsLmNybTExLmR5bmFtaWNzLmNvbS8iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8wNzBiYTlkMS02NWFkLTQzODYtYmVjZi1mNmM2ZjdhZTRiZDkvIiwiaWF0IjoxNTU5MDMxNTY5LCJuYmYiOjE1NTkwMzE1NjksImV4cCI6MTU1OTAzNTQ2OSwiYWlvIjoiNDJaZ1lQZ1dJZEJ3ZlNmTGdrazhGNk1OOG8zcUFRPT0iLCJhcHBpZCI6IjQ4OTdlYTYxLWYwMTUtNDg2MC1hNzI2LWMxMjU5Y2ZmNzVmYiIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzA3MGJhOWQxLTY1YWQtNDM4Ni1iZWNmLWY2YzZmN2FlNGJkOS8iLCJvaWQiOiJmZTI2NGVjMi1hZTY2LTRkYmItODdlYi1iYWI0OGIzOWM5ZjciLCJzdWIiOiJmZTI2NGVjMi1hZTY2LTRkYmItODdlYi1iYWI0OGIzOWM5ZjciLCJ0aWQiOiIwNzBiYTlkMS02NWFkLTQzODYtYmVjZi1mNmM2ZjdhZTRiZDkiLCJ1dGkiOiJJTGhNMGYwSjYweXJtN2ZTZXF3c0FBIiwidmVyIjoiMS4wIn0.AnA4I5WbdN_gJq4RnKi1L6LNPSMyueSSXjYH0qoY8UsrbnlvjZAbTV1LAbmg3bFG0l8mqhXElEtPGv2R7GM4o-vSM3F_UyjoMyt4ZZKnH9-y1xzptqWSMq-Ly_ayUPBCKXC4m-yHXCdgO_9N9NAImo3H0jjM1tUV4C5dQdCsOfAZ4P2qmzvMdXVRCVsmDFQPf2hwf4n8tOsAOajKGJHnIyhK0nMITJwrliZzGz-8D9bTfEaGv0PQa8Qk3bsEFkYXG2oWyYpKiYdFd0_2E-sOer9C1kYhEqR2y5rhrSkz5U6E-tz1Z8eejmkTlPq6Yvw3Z3ObkxXYM66pOPYIfKKapA'});
     }
 
 }

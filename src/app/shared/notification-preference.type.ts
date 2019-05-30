@@ -1,5 +1,6 @@
 export class NotificationPreference {
     title: string;
     description: string;
-    type: string;
+    boundfield: string;
+    icon: string;
 }

@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { D365Service } from '../../shared/d365.service';
 import { ConsentContext } from '../../shared/consent.context';
 import { AngularFireMessaging } from '@angular/fire/messaging';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AngularFireModule } from '@angular/fire';
+import { AppConfigService } from '../../shared/appconfig.service';
+
+const notificationWarningMessage: string = '👍 Your consent token has been deleted, but you can disable all notifications from this site within your browser settings.'
 
 @Component({
     selector: 'notificationenable-component',
@@ -13,7 +18,10 @@ export class NotificationEnableComponent {
 
     selectedToggle: string;
 
-    constructor(private angularFireMessaging: AngularFireMessaging, private d365Service: D365Service, private consentContext: ConsentContext) {
+    constructor(private angularFireMessaging: AngularFireMessaging, private d365Service: D365Service, private consentContext: ConsentContext, private snackBar: MatSnackBar) {
+
+        AngularFireModule.initializeApp(AppConfigService.settings.FCMSettings);  
+
         this.angularFireMessaging.messaging.subscribe(
             (messaging) => {
                 messaging.onMessage = messaging.onMessage.bind(messaging);
@@ -49,10 +57,12 @@ export class NotificationEnableComponent {
                 this.requestPermission(this.consentContext.userId);
             } else {
                 this.d365Service.deleteConsent(this.consentContext.consentUrl);
-
-                this.consentContext.onCreate = false;
-                this.consentContext.onUpdate = false;
-                this.consentContext.onDeactivate = false;
+                this.consentContext.resetConsent();
+                this.snackBar.open(notificationWarningMessage, 'Dismiss', {
+                    duration: 5000,
+                    verticalPosition: 'top'
+                });
+                
             }
         } catch (e) {
             console.log(e);
