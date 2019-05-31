@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { D365Service } from '../../shared/d365.service';
 import { ConsentContext } from '../../shared/consent.context';
-import { AngularFireMessaging } from '@angular/fire/messaging';
+import { AngularFireMessaging, AngularFireMessagingModule } from '@angular/fire/messaging';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularFireModule } from '@angular/fire';
 import { AppConfigService } from '../../shared/appconfig.service';
+import * as firebase from 'firebase';
 
 const notificationWarningMessage: string = '👍 Your consent token has been deleted, but you can disable all notifications from this site within your browser settings.'
 
@@ -18,9 +19,11 @@ export class NotificationEnableComponent {
 
     selectedToggle: string;
 
+    private messaging: AngularFireMessaging;
+
     constructor(private angularFireMessaging: AngularFireMessaging, private d365Service: D365Service, private consentContext: ConsentContext, private snackBar: MatSnackBar) {
 
-        AngularFireModule.initializeApp(AppConfigService.settings.FCMSettings);  
+        firebase.initializeApp(AppConfigService.settings.FCMSettings);
 
         this.angularFireMessaging.messaging.subscribe(
             (messaging) => {
@@ -62,7 +65,7 @@ export class NotificationEnableComponent {
                     duration: 5000,
                     verticalPosition: 'top'
                 });
-                
+
             }
         } catch (e) {
             console.log(e);

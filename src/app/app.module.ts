@@ -38,9 +38,10 @@ import { AngularFireModule } from '@angular/fire';
 
 
 export function initializeApp(appConfigService: AppConfigService) {
-  return () => appConfigService.load();
+  return (): Promise<any> => { 
+    return appConfigService.load();
+  }
 }
-
 
 @NgModule({
   declarations: [
@@ -64,10 +65,15 @@ export function initializeApp(appConfigService: AppConfigService) {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFireMessagingModule,
-    AngularFireModule.initializeApp(AppConfigService.settings.FCMSettings),
-    
+    AngularFireModule.initializeApp({})
   ],
-  providers: [MessagingService, D365Service, AsyncPipe, ConsentContext, WindowRef, AppConfigService, { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppConfigService], multi: true }],
+  providers: [MessagingService, D365Service, AsyncPipe, ConsentContext, WindowRef, AppConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [AppConfigService],
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 
