@@ -10,6 +10,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { environment } from '../environments/environment';
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 
@@ -61,6 +62,7 @@ export function initializeApp(appConfigService: AppConfigService) {
     MatButtonModule,
     MatButtonToggleModule,
     MatIconModule,
+    MatToolbarModule,
     FlexLayoutModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,

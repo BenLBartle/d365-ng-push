@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NotificationPreference } from './shared/notification-preference.type';
+import { version } from '../../package.json';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,8 @@ import { NotificationPreference } from './shared/notification-preference.type';
 })
 
 export class AppComponent {
-  notificationPreferences: NotificationPreference[];
+  public notificationPreferences: NotificationPreference[];
+  public version: string = version;
 
   constructor() {
     this.notificationPreferences = new Array<NotificationPreference>();

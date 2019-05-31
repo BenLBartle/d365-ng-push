@@ -1,4 +1,5 @@
-<mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedToggle"
+
+  <!-- <mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedToggle"
   (change)="toggleSubcription(group.value)">
   <mat-button-toggle value="Enabled">
     Enabled
@@ -6,4 +7,10 @@
   <mat-button-toggle value="Disabled">
     Disabled
   </mat-button-toggle>
-</mat-button-toggle-group>
+</mat-button-toggle-group> -->
+
+<mat-slide-toggle [color]="color" [checked]="checked" (change)="toggle($event)">
+  <mat-icon class="toolbar-icon" aria-hidden="false" aria-label="Notifications Status">{{ toggleIcon }} 
+  </mat-icon>
+  <!-- <span [className]="toggleTextClass">{{ toggleText }}</span> -->
+</mat-slide-toggle>

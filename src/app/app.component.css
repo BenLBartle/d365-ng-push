@@ -1,14 +1,25 @@
 div.container {
     margin: 20px;
-  color: #333;
-  font-family: "Segoe UI Regular",SegoeUI,"Segoe UI";
-  font-size: 1rem;
-  line-height: 1.5rem;
-  padding: 0;
-  text-overflow: ellipsis;
+    color: #333;
+    font-family: "Segoe UI Regular",SegoeUI,"Segoe UI";
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding: 0;
+    text-overflow: ellipsis;
 }
 
 .info {
     font-size: small;
 }
 
+.credits {
+    font-size: small;
+}
+
+.toolbar-icon {
+    padding: 0 14px;
+  }
+  
+  .toolbar-spacer {
+    flex: 1 1 auto;
+  }

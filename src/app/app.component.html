@@ -1,18 +1,31 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="container">
-    <h3>Notification Preferences</h3>
-   
-    <div>
+    <mat-toolbar>
+        <span>Notification Preferences</span>
+        <span class="toolbar-spacer"></span>
+        
+        <div>
+            <notificationenable-component></notificationenable-component>
+        </div>
+    </mat-toolbar>
+
+    <!-- <div>
         <notificationenable-component></notificationenable-component>
-    </div>
+    </div> -->
 
     <p class="info">
-            Use the controls below to set your notification preferences. These preferences will be stored against your profile and cannot be edited by anyone other than an administrator.
-        </p>
+        Use the controls below to set your notification preferences. These preferences will be stored against your
+        profile and cannot be edited by anyone other than an administrator.
+    </p>
 
     <div fxLayout="row wrap" fxLayoutGap="25px" fxLayoutAlign="flex-start">
         <notificationcard-component fxFlex="0 1 calc(10% - 25px)" *ngFor="let pref of notificationPreferences"
             [notificationPreference]="pref">
         </notificationcard-component>
     </div>
+    <mat-toolbar>
+        <span>Push Notifications v{{ version }} by <a href="https://bartl.io/" target="_blank">Ben Bartle</a></span>
+        <span class="toolbar-spacer"></span>
+        <a href="https://github.com/BenLBartle/d365-ng-push/" target="_blank"><img src="assets/icons/github.png"></a>
+    </mat-toolbar>
 </div>
