@@ -36,14 +36,18 @@ export class NotificationCardComponent {
             .pipe(filter(p => p.boundfield == this.notificationPreference.boundfield))
             .subscribe(p => {
                 this.checked = p.enabled;
+                this.enabledClass = this.ClassFromBoolean(p.enabled);
+                this.enabledText = this.TextFromBoolean(p.enabled);
             });
 
         this.consentService.consentChanged$
             .subscribe(c => {
                 this.enabled = !c;
-                this.enabledClass = this.ClassFromBoolean(c);
-                this.enabledText = this.TextFromBoolean(c);
-                this.cardclass = this.CardClassFromBoolean(c);
+                if (!c) {
+                    this.checked = false;
+                    this.enabledClass = this.ClassFromBoolean(false);
+                    this.enabledText = this.TextFromBoolean(false);
+                }
             })
     }
 

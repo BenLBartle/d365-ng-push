@@ -1,6 +1,14 @@
+<mat-toolbar>
+  <span>Notification Preferences</span>
+  <span class="toolbar-spacer"></span>
+  
+  <div>
+    <mat-slide-toggle [color]="color" [checked]="checked" (change)="toggle($event)">
+      <mat-icon class="toolbar-icon" aria-hidden="false" aria-label="Notifications Status">{{ toggleIcon }} 
+      </mat-icon>
+      <!-- <span [className]="toggleTextClass">{{ toggleText }}</span> -->
+    </mat-slide-toggle>
+  </div>
+</mat-toolbar>
 
-<mat-slide-toggle [color]="color" [checked]="checked" (change)="toggle($event)">
-  <mat-icon class="toolbar-icon" aria-hidden="false" aria-label="Notifications Status">{{ toggleIcon }} 
-  </mat-icon>
-  <!-- <span [className]="toggleTextClass">{{ toggleText }}</span> -->
-</mat-slide-toggle>
+

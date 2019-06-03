@@ -1,17 +1,7 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="container" id="preferences-header">
-    <mat-toolbar>
-        <span>Notification Preferences</span>
-        <span class="toolbar-spacer"></span>
-        
-        <div>
-            <notificationenable-component></notificationenable-component>
-        </div>
-    </mat-toolbar>
 
-    <!-- <div>
-        <notificationenable-component></notificationenable-component>
-    </div> -->
+    <notificationenable-component></notificationenable-component>
 
     <p class="info">
         Use the controls below to set your notification preferences. These preferences will be stored against your
@@ -24,8 +14,10 @@
         </notificationcard-component>
     </div>
     <mat-toolbar id="preferences-footer">
-        <span>Push Notifications v{{ version }} by <a href="https://bartl.io/" target="_blank">Ben Bartle</a></span>
+        <span class="credits">Push Notifications for D365 v{{ version }}</span>
         <span class="toolbar-spacer"></span>
-        <a href="https://github.com/BenLBartle/d365-ng-push/" target="_blank"><img src="assets/icons/github.png"></a>
+        <span class="credits">
+            <!-- Place this tag where you want the button to render. -->
+            <a class="github-button" href="https://github.com/BenLBartle" data-size="large" data-show-count="true" aria-label="Follow @BenLBartle on GitHub">Follow @BenLBartle</a></span>
     </mat-toolbar>
 </div>

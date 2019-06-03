@@ -4,6 +4,8 @@ import { AngularFireMessaging, AngularFireMessagingModule } from '@angular/fire/
 import { Subject } from 'rxjs';
 import { NotificationPreferenceChanged } from './notification-preference-changed.type';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppConfigService } from './appconfig.service';
+import * as firebase from 'firebase';
 
 const ErrorLoadingDynamicsMessage = "😢 There was an error getting your details from the system, please try again."
 
@@ -11,16 +13,12 @@ const ErrorLoadingDynamicsMessage = "😢 There was an error getting your detail
 export class ConsentService {
 
     public userId: string;
-
     public consentUrl: string;
 
-    public adminMessages = false;
-
-    public lowPriority = false;
-    public standardPriority = false;
-    public highPriority = false;
-
-    public onDeactivate = false;
+    public adminMessages: boolean = false;
+    public lowPriority: boolean = false;
+    public standardPriority: boolean = false;
+    public highPriority: boolean = false;
 
     private consentChangedSource = new Subject<boolean>();
     private permissionChangedSource = new Subject<NotificationPreferenceChanged>();
@@ -29,6 +27,9 @@ export class ConsentService {
     permissionChanged$ = this.permissionChangedSource.asObservable();
 
     constructor(private angularFireMessaging: AngularFireMessaging, private d365Service: D365Service, private snackBar: MatSnackBar) {
+        
+        firebase.initializeApp(AppConfigService.settings.FCMSettings);
+        
         this.d365Service.getUserId()
             .then(result => {
                 this.userId = result;
@@ -39,15 +40,15 @@ export class ConsentService {
 
                     this.consentUrl = `${this.d365Service.clientUrl}/api/data/v${this.d365Service.apiVersion}/bartl_notificationconsents(${result.bartl_notificationconsentid})`;
 
-                    this.adminMessages = result.bartl_adminmessages;
+                    this.adminMessages = result.bartl_administratormessages;
                     this.lowPriority = result.bartl_lowpriority;
-                    this.standardPriority = result.standardPriority;
-                    this.highPriority = result.highPriority;
+                    this.standardPriority = result.bartl_standardpriority;
+                    this.highPriority = result.bartl_highpriority;
 
                     this.consentChangedSource.next(true);
 
                     this.permissionChangedSource.next({
-                        boundfield: 'bartl_adminmessages',
+                        boundfield: 'bartl_administratormessages',
                         enabled: this.adminMessages
                     });
 
@@ -57,21 +58,21 @@ export class ConsentService {
                     });
 
                     this.permissionChangedSource.next({
-                        boundfield: 'standardPriority',
+                        boundfield: 'bartl_standardpriority',
                         enabled: this.standardPriority
                     });
 
                     this.permissionChangedSource.next({
-                        boundfield: 'highPriority',
+                        boundfield: 'bartl_highpriority',
                         enabled: this.highPriority
                     });
                 }
-
-                else {
+                else 
+                {
                     this.consentChangedSource.next(false);
 
                     this.permissionChangedSource.next({
-                        boundfield: 'bartl_adminmessages',
+                        boundfield: 'bartl_administratormessages',
                         enabled: false
                     });
 
@@ -81,12 +82,12 @@ export class ConsentService {
                     });
 
                     this.permissionChangedSource.next({
-                        boundfield: 'standardPriority',
+                        boundfield: 'bartl_standardpriority',
                         enabled: false
                     });
 
                     this.permissionChangedSource.next({
-                        boundfield: 'highPriority',
+                        boundfield: 'bartl_highpriority',
                         enabled: false
                     });
                 }
@@ -102,10 +103,10 @@ export class ConsentService {
 
     }
 
-    requestPermission(userId) {
+    requestPermission() {
         this.angularFireMessaging.requestToken.subscribe(
             (token) => {
-                this.d365Service.createConsent(userId, token).then(consentUrl => {
+                this.d365Service.createConsent(this.userId, token).then(consentUrl => {
                     this.consentUrl = consentUrl
                 });
                 this.consentChangedSource.next(true);
@@ -125,12 +126,16 @@ export class ConsentService {
         })
     }
 
-    resetConsent() {
+    public async resetConsent() {
 
         this.adminMessages = false;
         this.lowPriority = false;
         this.standardPriority = false;
         this.highPriority = false;
+        
+
+        await this.d365Service.deleteConsent(this.consentUrl);
+        this.consentUrl = null;
 
         this.permissionChangedSource.next({
             boundfield: 'bartl_adminmessages',

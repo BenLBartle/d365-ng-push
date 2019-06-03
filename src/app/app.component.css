@@ -8,13 +8,6 @@ div.container {
     text-overflow: ellipsis;
 }
 
-.info {
-    font-size: small;
-}
-
-.credits {
-    font-size: small;
-}
 
 .toolbar-icon {
     padding: 0 14px;
@@ -22,4 +15,19 @@ div.container {
   
 .toolbar-spacer {
     flex: 1 1 auto;
+}
+
+.info {
+    font-size: small;
+}
+
+.credits {
+    font-size: small;
+    vertical-align: middle;
+}
+
+.logo {
+    width: 20px;
+    height: 20px;
+    font-size: small;
 }

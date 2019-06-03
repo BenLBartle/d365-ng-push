@@ -2,7 +2,7 @@
     color: rgba(0,0,0,0.5);
     font-weight: 400;
     font-family: Roboto,"Helvetica Neue",sans-serif;
-    font-size: 14px;
+    font-size: medium;
     padding-left:10px;
 }
 
@@ -10,5 +10,13 @@
     color: inherit;
     font-weight: 500;
     font-family: Roboto,"Helvetica Neue",sans-serif;
-    font-size: 14px;
+    font-size: medium;
   }
+ 
+  .toolbar-icon {
+    padding: 0 14px;
+  }
+  
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
