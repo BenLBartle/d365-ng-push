@@ -1,13 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { D365Service } from '../../shared/d365.service';
-import { ConsentContext } from '../../shared/consent.context';
+import { ConsentService } from '../../shared/consent.service';
 import { NotificationPreference } from '../../shared/notification-preference.type';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { filter } from 'rxjs/operators';
 
 const DisabledTextValue: string = "Disabled";
 const EnabledTextValue: string = "Enabled";
 const DisabledTextClassName: string = "text-disabled";
 const EnabledTextClassName: string = "text-enabled";
+const CardEnabledClassName: string = "notification-card";
+const CardDisabledClassName: string = "notification-card-disabled"
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -23,54 +25,30 @@ export class NotificationCardComponent {
 
     enabledText: string = DisabledTextValue;
 
-    checked: boolean;
+    checked: boolean = false;
 
-    constructor(private d365Service: D365Service, private consentContext: ConsentContext) {
-    }
+    enabled: boolean = false;
 
-    ngOnInit() {
+    cardclass: string = CardDisabledClassName;
 
-        this.d365Service.getUserId()
-            .then(result => {
-                this.consentContext.userId = result;
-            })
-            .then(() => this.d365Service.getConsent(this.consentContext.userId))
-            .then(result => {
-                this.consentContext.setConsent(result);
-            })
-            .then(() => {
-                this.setSelectedToggle();
+    constructor(private consentService: ConsentService) {
+        this.consentService.permissionChanged$
+            .pipe(filter(p => p.boundfield == this.notificationPreference.boundfield))
+            .subscribe(p => {
+                this.checked = p.enabled;
             });
 
+        this.consentService.consentChanged$
+            .subscribe(c => {
+                this.enabled = !c;
+                this.enabledClass = this.ClassFromBoolean(c);
+                this.enabledText = this.TextFromBoolean(c);
+                this.cardclass = this.CardClassFromBoolean(c);
+            })
     }
 
     public async toggle(event: MatSlideToggleChange) {
-        console.log("Toggled to: " + event.checked);
-        this.enabledClass = this.ClassFromBoolean(event.checked);
-        this.enabledText = this.TextFromBoolean(event.checked);
-        await this.d365Service.notificationToggle(this.consentContext.consentUrl, this.notificationPreference.boundfield, event.checked);
-
-    }
-
-    setSelectedToggle() {
-        this.setToggleForField(this.notificationPreference.boundfield);
-    }
-
-    private setToggleForField(boundField: string) {
-        switch (boundField) {
-            case 'bartl_adminmessages':
-                this.checked = this.consentContext.adminMessages;
-                break;
-            case 'bartle_lowpriority':
-                this.checked = this.consentContext.lowPriority;
-                break;
-            case 'bartl_standardpriority':
-                this.checked = this.consentContext.standardPriority;
-                break;
-            case 'bartl_highpriority':
-                this.checked = this.consentContext.highPriority;
-                break;
-        }
+        await this.consentService.setPreference(this.notificationPreference.boundfield, event.checked);
     }
 
     private TextFromBoolean(value: boolean): string {
@@ -86,4 +64,12 @@ export class NotificationCardComponent {
         }
         return DisabledTextClassName;
     }
+
+    private CardClassFromBoolean(value: boolean): string {
+        if (value === true) {
+            return CardEnabledClassName;
+        }
+        return CardDisabledClassName;
+    }
+    
 }

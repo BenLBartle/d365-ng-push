@@ -16,3 +16,13 @@
     color: inherit;
     font-weight: 500;
   }
+
+  .notification-card-disabled {
+    width: 250px;
+    margin-top:10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    margin-bottom:10px;
+    opacity: 0.3;
+  }

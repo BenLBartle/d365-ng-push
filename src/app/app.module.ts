@@ -8,19 +8,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { environment } from '../environments/environment';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
-
-
-
 
 import { AsyncPipe } from '../../node_modules/@angular/common';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -31,7 +25,7 @@ import { NotificationEnableComponent } from './components/notificationenable/not
 // Import Services
 import { MessagingService } from './shared/messaging.service';
 import { D365Service } from './shared/d365.service';
-import { ConsentContext } from './shared/consent.context';
+import { ConsentService } from './shared/consent.service';
 import { WindowRef } from './shared/windowref.service';
 import { AppConfigService } from './shared/appconfig.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -69,7 +63,7 @@ export function initializeApp(appConfigService: AppConfigService) {
     AngularFireMessagingModule,
     AngularFireModule.initializeApp({})
   ],
-  providers: [MessagingService, D365Service, AsyncPipe, ConsentContext, WindowRef, AppConfigService,
+  providers: [MessagingService, D365Service, AsyncPipe, ConsentService, WindowRef, AppConfigService,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
