@@ -1,0 +1,6 @@
+Changes from built:
+
+- Rename SW File
+- Rename Polyfills file
+- Rename SW registration & scope in vendor.js
+- Update index.html reference to Polyfills file.

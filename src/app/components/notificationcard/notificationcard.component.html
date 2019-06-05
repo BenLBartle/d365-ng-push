@@ -9,7 +9,7 @@
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <mat-slide-toggle [color]="color" [checked]="checked" [disabled]="enabled" (change)="toggle($event)">
+    <mat-slide-toggle [checked]="checked" [disabled]="enabled" (change)="toggle($event)">
       <p [className]="enabledClass">{{ enabledText }}</p>
     </mat-slide-toggle>
   </mat-card-actions>

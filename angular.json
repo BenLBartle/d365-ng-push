@@ -40,13 +40,13 @@
                 }
               ],
               "optimization": true,
-              "outputHashing": "all",
+              "outputHashing": "none",
               "sourceMap": false,
               "extractCss": true,
-              "namedChunks": false,
+              "namedChunks": true,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
+              "vendorChunk": true,
               "buildOptimizer": true,
               "budgets": [
                 {
@@ -55,7 +55,8 @@
                   "maximumError": "5mb"
                 }
               ],
-              "serviceWorker": true,
+              "baseHref": "/WebResources/bartl_/push/",
+              "serviceWorker": false,
               "ngswConfigPath": "src/ngsw-config.json"
             }
           }
