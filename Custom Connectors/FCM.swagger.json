@@ -1,0 +1,99 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "FCM",
+    "description": "FCM Collection for Push Notifications"
+  },
+  "host": "fcm.googleapis.com",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/fcm/send": {
+      "post": {
+        "summary": "Send Notification",
+        "description": "Send a notification to a specific user using FCM",
+        "operationId": "SendNotification",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": " application/json",
+            "description": "Content-Type"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "notification": {
+                  "type": "object",
+                  "properties": {
+                    "body": {
+                      "type": "string",
+                      "description": "body"
+                    },
+                    "icon": {
+                      "type": "string",
+                      "description": "icon"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "title"
+                    },
+                    "click_action": {
+                      "type": "string",
+                      "description": "click_action"
+                    }
+                  },
+                  "description": "notification"
+                },
+                "to": {
+                  "type": "string",
+                  "description": "to"
+                }
+              },
+              "default": {
+                "notification": {
+                  "body": "body",
+                  "icon": "icon",
+                  "title": "title",
+                  "click_action": "https://www.google.com/"
+                },
+                "to": "to"
+              }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {},
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "security": [],
+  "tags": []
+}
