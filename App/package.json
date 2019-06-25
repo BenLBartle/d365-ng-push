@@ -1,6 +1,6 @@
 {
   "name": "d365-ng-push",
-  "version": "0.0.2-preview",
+  "version": "0.0.3-preview",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
