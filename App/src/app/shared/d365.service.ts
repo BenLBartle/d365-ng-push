@@ -11,8 +11,7 @@ export class D365Service {
     public apiVersion = '9.1';
 
     constructor(private http: Http, private winRef: WindowRef) {
-        this.clientUrl = 'https://bartl.crm11.dynamics.com';
-        //winRef.nativeWindow.GetGlobalContext().getClientUrl();
+        this.clientUrl = winRef.nativeWindow.GetGlobalContext().getClientUrl();
      }
 
     async getConsent(userId: string) {
@@ -74,7 +73,7 @@ export class D365Service {
     }
 
     getHeaders() {
-        return new Headers({ 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkhCeGw5bUFlNmd4YXZDa2NvT1UyVEhzRE5hMCIsImtpZCI6IkhCeGw5bUFlNmd4YXZDa2NvT1UyVEhzRE5hMCJ9.eyJhdWQiOiJodHRwczovL2JhcnRsLmNybTExLmR5bmFtaWNzLmNvbS8iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8wNzBiYTlkMS02NWFkLTQzODYtYmVjZi1mNmM2ZjdhZTRiZDkvIiwiaWF0IjoxNTU5NTg3ODI0LCJuYmYiOjE1NTk1ODc4MjQsImV4cCI6MTU1OTU5MTcyNCwiYWlvIjoiNDJaZ1lQRFNOVzNtT0h6VDZ2RHVwV2Q5Rmo1ZURnQT0iLCJhcHBpZCI6IjQ4OTdlYTYxLWYwMTUtNDg2MC1hNzI2LWMxMjU5Y2ZmNzVmYiIsImFwcGlkYWNyIjoiMSIsImlkcCI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzA3MGJhOWQxLTY1YWQtNDM4Ni1iZWNmLWY2YzZmN2FlNGJkOS8iLCJvaWQiOiJmZTI2NGVjMi1hZTY2LTRkYmItODdlYi1iYWI0OGIzOWM5ZjciLCJzdWIiOiJmZTI2NGVjMi1hZTY2LTRkYmItODdlYi1iYWI0OGIzOWM5ZjciLCJ0aWQiOiIwNzBiYTlkMS02NWFkLTQzODYtYmVjZi1mNmM2ZjdhZTRiZDkiLCJ1dGkiOiI3MUVLaktMc2YwS2h1bXZ5WUJOREFBIiwidmVyIjoiMS4wIn0.TAF_GXxOcRaJlHTKrcYl3q-BMsjJ-AQ0WMA4bMLGrqO6WzEn-0nn7EpZpuHkkP4NC83XVzZ4n6b3m-7lpicDHlK4aIRSwBJLOVRjzV2d4PVytDd7yugDIQXWrTC6GioI4Oj7Ir1ZEpeuk_NiySpUvK8dh6aXno_ESX26xRCMN9LngJ3ZdtLh8HfrQSYk3kNR1zcFe1j0LHYyGvbWR0hrjBfglptj5xKkMsYI2xYVJXBXOmjdvKqVqbekWoz6msyIhqdqAjv07ef1mQ7vAW5g0QCU-SNhF7BH9VyQqnGd4eqv40ral1VSnN00-RSPnaAMu5dD88uX4TKgyO0WYFbcKw'});
+        return new Headers();
     }
 
 }
